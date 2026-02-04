@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Реферат</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+<header class="topbar topbar--modern">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark py-3">
+      <a class="navbar-brand fw-semibold me-3" href="index.html">
+        <span class="brand-dot"></span>Резюме
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topnav"
+        aria-controls="topnav" aria-expanded="false" aria-label="Меню">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div id="topnav" class="collapse navbar-collapse">
+        <ul class="navbar-nav mx-auto nav-modern">
+          <li class="nav-item"><a class="nav-link" href="index.html">Резюме</a></li>
+          <li class="nav-item"><a class="nav-link" href="biography.html">Биография</a></li>
+          <li class="nav-item"><a class="nav-link active" href="referat.html">Реферат</a></li>
+          <li class="nav-item"><a class="nav-link" href="links.html">Ссылки</a></li>
+          <li class="nav-item"><a class="nav-link" href="search-report.html">Отчет о поиске</a></li>
+        </ul>
+
+        <div class="d-flex gap-2 ms-lg-3 mt-3 mt-lg-0">
+          <a class="btn btn-light btn-sm topbar-btn topbar-btn--ghost" href="https://kubsu.ru/" target="_blank" rel="noopener">КубГУ</a>
+          <a class="btn btn-light btn-sm topbar-btn topbar-btn--ghost" href="https://kubsu.ru/user" target="_blank" rel="noopener">Портал студента</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+  <main class="py-5">
+    <div class="container">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4 p-md-5">
+          <div class="gost-doc">
+            <h1 class="gost-title">ВВЕДЕНИЕ</h1>
+
+            <p>
+              Стеноз сонных артерий — это сужение просвета сосудов, которые отвечают за кровоснабжение головного мозга.
+              Патология опасна тем, что длительное время может не проявляться симптомами, однако имеет опасные осложнения.
+            </p>
+
+            <p>
+              Наиболее часто стенозы развиваются в шейном сегменте сонных артерий, реже страдают внутричерепные отделы.
+              Это состояние является причиной половины клинических случаев хронической ишемии головного мозга и около 20% ишемических инсультов.
+            </p>
+
+            <p>
+              Компьютерная томография (КТ) является первичным, минимально инвазивным методом визуализации, используемым в настоящее время для диагностики,
+              наблюдения и предоперационного планирования стеноза сонных артерий,
+              но интерпретация данных требует много времени даже для достаточно опытного специалиста.
+            </p>
+
+            <p>
+              Методики проведения КТ и интерпретации его результатов могут быть пересмотрены благодаря машинному обучению.
+              Искусственный интеллект (ИИ) повышает ценность диагностической процедуры, позволяет извлечь больше информации из полученных снимков,
+              обнаружить малозаметные патологии, а также уменьшить время интерпретации изображения
+            </p>
+
+            <h2 class="gost-heading">Цель работы</h2>
+            <p>
+              Целью работы является реализация и обучение прототипа трёхмерной сверточной нейронной сети классификации
+              компьютерной томографии ангиографии с целью определения наличия и степени тяжести стеноза сонных артерий
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <footer class="py-4 text-center text-muted">
+        <small>© <span id="year"></span> Заяц Илья</small>
+      </footer>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
