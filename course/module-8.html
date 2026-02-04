@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Проект — Модуль (тип 3)</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    .mono { font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-semibold" href="index.html">ЭУМК Go</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="topNav">
+      <ul class="navbar-nav ms-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="index.html#structure">Модули</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#requirements">ПО</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="py-4">
+  <div class="container">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Главная</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Проект</li>
+      </ol>
+    </nav>
+
+    <div class="row g-4">
+      <!-- Left: Spec -->
+      <section class="col-lg-8">
+        <div class="card rounded-4 shadow-sm">
+          <div class="card-body p-4 p-md-5">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-2">
+              <div>
+                <div class="badge text-bg-primary mb-2">Тип 3</div>
+                <h1 class="h3 mb-1">Проект: Backend-сервис (заглушка)</h1>
+                <p class="text-secondary mb-0">Техническое задание, требования и критерии оценивания.</p>
+              </div>
+              <a class="btn btn-outline-primary" href="index.html#structure">К структуре</a>
+            </div>
+
+            <hr class="my-4">
+
+            <h2 class="h5 mb-3">Цель проекта</h2>
+            <div class="alert alert-primary rounded-4">
+              Заглушка: цель — разработать backend-сервис на Go, применив изученные темы (HTTP, БД, логирование, тесты).
+            </div>
+
+            <h2 class="h5 mb-3">ТЗ (описание задачи)</h2>
+            <p class="text-secondary">
+              Заглушка: требуется реализовать сервис <strong>XXX</strong> с CRUD-операциями, авторизацией и хранением данных.
+            </p>
+
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <div class="p-3 border rounded-4 h-100">
+                  <div class="fw-semibold mb-1">Функциональные требования</div>
+                  <ul class="text-secondary mb-0">
+                    <li>Эндпоинты: GET/POST/PUT/DELETE (заглушка)</li>
+                    <li>Валидация входных данных</li>
+                    <li>Ошибки в едином формате</li>
+                    <li>Логи ключевых действий</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-3 border rounded-4 h-100">
+                  <div class="fw-semibold mb-1">Нефункциональные требования</div>
+                  <ul class="text-secondary mb-0">
+                    <li>Конфиг через env/файл (заглушка)</li>
+                    <li>Graceful shutdown</li>
+                    <li>Документация API (заглушка)</li>
+                    <li>Минимальная безопасность</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <h2 class="h5 mb-3">Требования</h2>
+            <div class="accordion" id="reqAcc">
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#r1">
+                    Технологии
+                  </button>
+                </h2>
+                <div id="r1" class="accordion-collapse collapse show" data-bs-parent="#reqAcc">
+                  <div class="accordion-body">
+                    <ul class="mb-0 text-secondary">
+                      <li>Go (версия: заглушка)</li>
+                      <li>HTTP: net/http или роутер (заглушка)</li>
+                      <li>БД: PostgreSQL/SQLite (заглушка)</li>
+                      <li>Docker (по желанию)</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#r2">
+                    Тестирование
+                  </button>
+                </h2>
+                <div id="r2" class="accordion-collapse collapse" data-bs-parent="#reqAcc">
+                  <div class="accordion-body">
+                    <ul class="mb-0 text-secondary">
+                      <li>Unit-тесты ключевой логики</li>
+                      <li>Минимум N тестов (заглушка)</li>
+                      <li>Покрытие: целевой % (заглушка)</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#r3">
+                    Формат сдачи
+                  </button>
+                </h2>
+                <div id="r3" class="accordion-collapse collapse" data-bs-parent="#reqAcc">
+                  <div class="accordion-body">
+                    <ul class="mb-0 text-secondary">
+                      <li>Ссылка на репозиторий</li>
+                      <li>Отчёт (PDF/DOCX/MD) с описанием решения</li>
+                      <li>Инструкция запуска (README)</li>
+                      <li>Скриншоты/примеры запросов (опционально)</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <h2 class="h5 mb-3">Критерии оценивания</h2>
+            <div class="table-responsive">
+              <table class="table align-middle">
+                <thead>
+                  <tr>
+                    <th>Критерий</th>
+                    <th class="text-end">Вес</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Корректность API и обработка ошибок (заглушка)</td>
+                    <td class="text-end mono">30%</td>
+                  </tr>
+                  <tr>
+                    <td>Работа с БД, миграции/транзакции (заглушка)</td>
+                    <td class="text-end mono">25%</td>
+                  </tr>
+                  <tr>
+                    <td>Качество кода, структура, читабельность</td>
+                    <td class="text-end mono">20%</td>
+                  </tr>
+                  <tr>
+                    <td>Тесты и надёжность</td>
+                    <td class="text-end mono">15%</td>
+                  </tr>
+                  <tr>
+                    <td>Документация (README/отчёт)</td>
+                    <td class="text-end mono">10%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="alert alert-warning rounded-4 mb-0">
+              Заглушка: условия зачёта/минимальные требования, дедлайн, штрафы за плагиат и т.д.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right: Submission -->
+      <aside class="col-lg-4">
+        <div class="card rounded-4 shadow-sm">
+          <div class="card-body p-4">
+            <h2 class="h5 mb-3">Сдача проекта</h2>
+
+            <form id="submissionForm" class="vstack gap-3">
+              <div>
+                <label class="form-label">Ссылка на проект (репозиторий)</label>
+                <input type="url" class="form-control" name="repo" placeholder="https://..." required>
+                <div class="form-text">GitHub/GitLab/другое — заглушка.</div>
+              </div>
+
+              <div>
+                <label class="form-label">Ссылка на деплой (опционально)</label>
+                <input type="url" class="form-control" name="deploy" placeholder="https://...">
+              </div>
+
+              <div>
+                <label class="form-label">Отчёт (файл)</label>
+                <input type="file" class="form-control" name="report" accept=".pdf,.doc,.docx,.md,.txt">
+                <div class="form-text">Файл не отправляется на сервер в этом шаблоне — только UI.</div>
+              </div>
+
+              <div>
+                <label class="form-label">Комментарий</label>
+                <textarea class="form-control" name="comment" rows="4" placeholder="Кратко: что сделано, что не успел (заглушка)"></textarea>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="agree" required>
+                <label class="form-check-label" for="agree">
+                  Подтверждаю, что работа выполнена самостоятельно (заглушка)
+                </label>
+              </div>
+
+              <div class="d-grid gap-2">
+                <button class="btn btn-primary" type="submit">Сохранить данные (локально)</button>
+                <button class="btn btn-outline-secondary" type="reset">Очистить</button>
+                <a class="btn btn-outline-primary" href="index.html#structure">К модулям</a>
+              </div>
+            </form>
+
+            <hr class="my-4">
+
+            <div class="small text-secondary">
+              Подсказка: если нужен реальный бэкенд для загрузки отчётов — добавишь endpoint и отправку через fetch/FormData.
+            </div>
+          </div>
+        </div>
+
+        <div class="alert alert-success rounded-4 mt-3 d-none" id="savedAlert">
+          Данные формы сохранены в LocalStorage (заглушка).
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const form = document.getElementById('submissionForm');
+  const savedAlert = document.getElementById('savedAlert');
+
+  // Load from localStorage
+  const key = 'project_submission_v1';
+  try {
+    const saved = JSON.parse(localStorage.getItem(key) || 'null');
+    if (saved) {
+      form.repo.value = saved.repo || '';
+      form.deploy.value = saved.deploy || '';
+      form.comment.value = saved.comment || '';
+    }
+  } catch {}
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const payload = {
+      repo: form.repo.value.trim(),
+      deploy: form.deploy.value.trim(),
+      comment: form.comment.value.trim(),
+      savedAt: new Date().toISOString()
+    };
+
+    localStorage.setItem(key, JSON.stringify(payload));
+
+    savedAlert.classList.remove('d-none');
+    setTimeout(() => savedAlert.classList.add('d-none'), 3500);
+  });
+</script>
+</body>
+</html>

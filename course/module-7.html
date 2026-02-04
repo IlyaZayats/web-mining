@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Тест — Модуль (тип 2)</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    .timer-badge { font-variant-numeric: tabular-nums; }
+    .question-card { scroll-margin-top: 96px; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-semibold" href="index.html">ЭУМК Go</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="topNav">
+      <ul class="navbar-nav ms-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="index.html#structure">Модули</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#requirements">ПО</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="py-4">
+  <div class="container">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Главная</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Тестирование</li>
+      </ol>
+    </nav>
+
+    <!-- Test header -->
+    <div class="card rounded-4 shadow-sm mb-4">
+      <div class="card-body p-4 p-md-5">
+        <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+          <div>
+            <div class="badge text-bg-primary mb-2">Тип 2</div>
+            <h1 class="h3 mb-1">Тест по теме: название (заглушка)</h1>
+            <p class="text-secondary mb-0">
+              Тип теста: <strong>теоретический</strong>. Ответ на каждый вопрос — один вариант из четырёх.
+            </p>
+          </div>
+
+          <div class="text-end">
+            <div class="d-flex flex-wrap gap-2 justify-content-end">
+              <span class="badge text-bg-light border text-dark">Вопросов: <span id="metaQuestions">30</span></span>
+              <span class="badge text-bg-light border text-dark">Время: <span id="metaTime">20:00</span></span>
+              <span class="badge text-bg-light border text-dark">Проходной балл: <span id="metaPass">70%</span></span>
+              <span class="badge text-bg-info timer-badge" id="timerBadge">⏱ 20:00</span>
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Instructions -->
+        <h2 class="h5 mb-3">Инструкции</h2>
+        <ul class="text-secondary mb-4">
+          <li>Нажми «Завершить», когда готов — или тест завершится автоматически по таймеру.</li>
+          <li>Можно пропускать вопросы и вернуться позже.</li>
+          <li>Засчитывается только один выбранный вариант ответа на вопрос.</li>
+          <li>Кнопка «Начать заново» сбрасывает ответы и таймер.</li>
+        </ul>
+
+        <div class="d-flex flex-wrap gap-2">
+          <button class="btn btn-outline-secondary" id="btnReset">Начать заново</button>
+          <button class="btn btn-primary" id="btnFinish">Завершить</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questions container -->
+    <div id="questions"></div>
+
+    <div class="mt-4 d-flex flex-wrap gap-2">
+      <a class="btn btn-outline-secondary" href="index.html#structure">К модулям</a>
+      <a class="btn btn-outline-primary" href="module_type1.html">К лекции</a>
+    </div>
+  </div>
+</main>
+
+<!-- Result modal -->
+<div class="modal fade" id="resultModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4">
+      <div class="modal-header">
+        <h5 class="modal-title">Результаты теста</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+        <div class="p-3 bg-light rounded-4">
+          <div class="d-flex justify-content-between">
+            <span class="text-secondary">Правильных:</span>
+            <strong><span id="resCorrect">0</span>/30</strong>
+          </div>
+          <div class="d-flex justify-content-between">
+            <span class="text-secondary">Процент:</span>
+            <strong><span id="resPercent">0</span>%</strong>
+          </div>
+          <div class="d-flex justify-content-between">
+            <span class="text-secondary">Статус:</span>
+            <strong id="resStatus">—</strong>
+          </div>
+        </div>
+
+        <div class="alert alert-primary mt-3 mb-0 rounded-4" id="resHint">
+          Заглушка: рекомендация по повторению темы / ссылка на материалы.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <a class="btn btn-primary" href="module_type3.html">Следующий модуль</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // ====== CONFIG ======
+  const TEST = {
+    totalQuestions: 30,
+    durationSec: 20 * 60, // 20 минут (заглушка)
+    passPercent: 70,
+    type: "теоретический"
+  };
+
+  // Заглушка вопросов: 30 шт, по 4 варианта. correctIndex = 0 сейчас.
+  const questionsData = Array.from({ length: TEST.totalQuestions }, (_, i) => ({
+    id: i + 1,
+    text: `Вопрос ${i + 1}: текст вопроса (заглушка).`,
+    options: [
+      "Вариант A (заглушка)",
+      "Вариант B (заглушка)",
+      "Вариант C (заглушка)",
+      "Вариант D (заглушка)"
+    ],
+    correctIndex: 0
+  }));
+
+  // ====== STATE ======
+  let remaining = TEST.durationSec;
+  let timerId = null;
+
+  const answers = new Map(); // qid -> chosenIndex
+
+  // ====== HELPERS ======
+  const pad2 = (n) => String(n).padStart(2, "0");
+  const fmtTime = (sec) => `${pad2(Math.floor(sec / 60))}:${pad2(sec % 60)}`;
+
+  function setTimerBadge() {
+    const badge = document.getElementById("timerBadge");
+    badge.textContent = `⏱ ${fmtTime(remaining)}`;
+
+    // лёгкая индикация риска времени
+    badge.classList.remove("text-bg-info", "text-bg-warning", "text-bg-danger");
+    if (remaining <= 60) badge.classList.add("text-bg-danger");
+    else if (remaining <= 5 * 60) badge.classList.add("text-bg-warning");
+    else badge.classList.add("text-bg-info");
+  }
+
+  function startTimer() {
+    stopTimer();
+    remaining = TEST.durationSec;
+    setTimerBadge();
+    timerId = setInterval(() => {
+      remaining--;
+      setTimerBadge();
+      if (remaining <= 0) {
+        stopTimer();
+        finishTest(true);
+      }
+    }, 1000);
+  }
+
+  function stopTimer() {
+    if (timerId) clearInterval(timerId);
+    timerId = null;
+  }
+
+  function renderQuestions() {
+    const wrap = document.getElementById("questions");
+    wrap.innerHTML = "";
+
+    questionsData.forEach((q) => {
+      const card = document.createElement("div");
+      card.className = "card rounded-4 shadow-sm mb-3 question-card";
+      card.id = `q${q.id}`;
+
+      const body = document.createElement("div");
+      body.className = "card-body p-4";
+
+      body.innerHTML = `
+        <div class="d-flex flex-wrap justify-content-between gap-2 align-items-start">
+          <h3 class="h6 mb-2">Вопрос ${q.id} из ${TEST.totalQuestions}</h3>
+          <a class="small text-decoration-none" href="#top">Наверх</a>
+        </div>
+        <p class="mb-3">${q.text}</p>
+        <div class="vstack gap-2" role="radiogroup" aria-label="Варианты ответа">
+          ${q.options.map((opt, idx) => `
+            <label class="border rounded-4 p-3 d-flex gap-2 align-items-start">
+              <input class="form-check-input mt-1" type="radio" name="q_${q.id}" value="${idx}">
+              <span>${opt}</span>
+            </label>
+          `).join("")}
+        </div>
+      `;
+
+      card.appendChild(body);
+      wrap.appendChild(card);
+
+      // Restore selected
+      const chosen = answers.get(q.id);
+      if (chosen !== undefined) {
+        const radio = card.querySelector(`input[type="radio"][value="${chosen}"]`);
+        if (radio) radio.checked = true;
+      }
+
+      // Change handler
+      card.addEventListener("change", (e) => {
+        const t = e.target;
+        if (t && t.matches('input[type="radio"]')) {
+          answers.set(q.id, Number(t.value));
+        }
+      });
+    });
+  }
+
+  function calculate() {
+    let correct = 0;
+    questionsData.forEach((q) => {
+      const chosen = answers.get(q.id);
+      if (chosen === q.correctIndex) correct++;
+    });
+    const percent = Math.round((correct / TEST.totalQuestions) * 100);
+    const passed = percent >= TEST.passPercent;
+    return { correct, percent, passed };
+  }
+
+  function finishTest(isAuto = false) {
+    stopTimer();
+
+    const { correct, percent, passed } = calculate();
+
+    document.getElementById("resCorrect").textContent = String(correct);
+    document.getElementById("resPercent").textContent = String(percent);
+    document.getElementById("resStatus").textContent = passed ? "Зачёт" : "Не зачёт";
+
+    const hint = document.getElementById("resHint");
+    hint.textContent = passed
+      ? "Отлично! Можно переходить к следующему модулю (заглушка рекомендаций)."
+      : "Рекомендуется повторить теорию и пройти тест ещё раз (заглушка рекомендаций).";
+
+    const modal = new bootstrap.Modal(document.getElementById("resultModal"));
+    modal.show();
+
+    if (isAuto) {
+      // Можно дополнить сообщением, что тест завершён по времени
+      // (не обязательно, но иногда полезно)
+    }
+  }
+
+  function resetTest() {
+    answers.clear();
+    renderQuestions();
+    startTimer();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // ====== INIT ======
+  document.getElementById("metaQuestions").textContent = TEST.totalQuestions;
+  document.getElementById("metaTime").textContent = fmtTime(TEST.durationSec);
+  document.getElementById("metaPass").textContent = TEST.passPercent + "%";
+  setTimerBadge();
+
+  renderQuestions();
+  startTimer();
+
+  document.getElementById("btnFinish").addEventListener("click", () => finishTest(false));
+  document.getElementById("btnReset").addEventListener("click", () => resetTest());
+</script>
+</body>
+</html>
