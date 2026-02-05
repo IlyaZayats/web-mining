@@ -9,7 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom -->
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <!-- Navbar -->
@@ -39,8 +39,7 @@
           <div class="col-lg-7">
             <h1 class="display-6 fw-bold mb-2">Электронный учебно-методический комплекс по Go-разработке</h1>
             <p class="lead text-secondary mb-4">
-              Заготовка многостраничного сайта на Bootstrap: описание курса, автор, 8 модулей с пунктами и переходами,
-              требования к ПО. Содержимое — шаблон, легко заменить.
+              8 модулей: 6 теоретических, 1 тестовый и 1 проектный.
             </p>
             <div class="d-flex gap-2 flex-wrap">
               <a class="btn btn-primary btn-lg" href="#structure">Смотреть модули</a>
@@ -67,15 +66,15 @@
                   </div>
                   <div class="col-6">
                     <div class="small text-secondary">Уровень</div>
-                    <div class="h5 mb-0">Junior+</div>
+                    <div class="h5 mb-0">Junior</div>
                   </div>
                   <div class="col-6">
                     <div class="small text-secondary">Язык</div>
                     <div class="h5 mb-0">Go</div>
                   </div>
                   <div class="col-6">
-                    <div class="small text-secondary">UI</div>
-                    <div class="h5 mb-0">Bootstrap 5</div>
+                    <div class="small text-secondary">Срок</div>
+                    <div class="h5 mb-0">Месяц</div>
                   </div>
                 </div>
               </div>
@@ -96,8 +95,8 @@
             <div class="card rounded-4 shadow-sm">
               <div class="card-body p-4 p-md-5">
                 <p class="text-secondary mb-3">
-                  Короткое описание курса (заглушка): чему научимся, какие навыки прокачаем, какие результаты получит студент.
-                  Здесь можно указать цели, компетенции, формат оценивания, ссылки на материалы и т. д.
+                  Данный курс предназначен для начинающих Golang разработчиков или тех,
+                  кто уже имел опыт работы с другими ЯП.
                 </p>
 
                 <div class="row g-3">
@@ -115,9 +114,9 @@
                     <div class="p-3 border rounded-4 h-100">
                       <div class="fw-semibold mb-1">Результат</div>
                       <ul class="mb-0 text-secondary">
-                        <li>Скелет проекта + архитектура</li>
+                        <li>Продвинутые навыки в Go</li>
                         <li>Работа с БД, логированием, тестами</li>
-                        <li>Мини-проект (заглушка)</li>
+                        <li>Проект из реальных бизнес кейсов</li>
                       </ul>
                     </div>
                   </div>
@@ -138,13 +137,9 @@
             <div class="card rounded-4 shadow-sm h-100">
               <div class="card-body p-4">
                 <div class="d-flex align-items-center gap-3">
-                  <!-- Если добавишь картинку: assets/img/author.jpg -->
-                  <div class="rounded-circle bg-secondary-subtle overflow-hidden" style="width:72px;height:72px;">
-                    <!-- <img src="assets/img/author.jpg" alt="Автор" class="w-100 h-100 object-fit-cover"> -->
-                  </div>
                   <div>
-                    <div class="fw-semibold">ФИО автора (заглушка)</div>
-                    <div class="text-secondary small">Преподаватель / разработчик</div>
+                    <div class="fw-semibold">Заяц Илья</div>
+                    <div class="text-secondary small">Студент</div>
                   </div>
                 </div>
 
@@ -152,7 +147,7 @@
 
                 <div class="small text-secondary mb-2">Коротко об авторе</div>
                 <p class="text-secondary mb-3">
-                  Заглушка: опыт, проекты, специализация (backend, микросервисы, Go), достижения, публикации.
+                  Сотрудник ВБ ТЕХ на позиции Golang разработчик.
                 </p>
 
                 <div class="d-grid gap-2">
@@ -166,16 +161,11 @@
       </div>
     </section>
 
-    <!-- STRUCTURE: 8 modules with 4 items each + button -->
     <section id="structure" class="py-5 bg-light">
       <div class="container">
         <div class="d-flex flex-wrap align-items-end justify-content-between gap-2 mb-3">
           <div>
             <h2 class="h3 section-title mb-1">Структура курса</h2>
-            <div class="text-secondary">8 модулей • в каждом — 4 пункта содержания и переход на страницу модуля</div>
-          </div>
-          <div class="text-secondary small">
-            Подсказка: правь названия/пункты, ссылки уже готовы.
           </div>
         </div>
 
@@ -187,15 +177,15 @@
                 <div class="d-flex justify-content-between align-items-start">
                   <div>
                     <div class="badge text-bg-primary mb-2">Модуль 1</div>
-                    <h3 class="h5 mb-1">Введение и установка окружения</h3>
-                    <div class="text-secondary small">Обзор курса, инструменты, первый запуск</div>
+                    <h3 class="h5 mb-1">Старт в Go и инструменты разработки</h3>
+                    <div class="text-secondary small">Что такое Go и почему он устроен именно так”</div>
                   </div>
                 </div>
                 <ul class="list-group list-group-flush mt-3">
-                  <li class="list-group-item px-0">Что такое Go и где используется</li>
-                  <li class="list-group-item px-0">Установка Go, GOPATH/GOMOD (заглушка)</li>
-                  <li class="list-group-item px-0">IDE/редактор, форматирование, линтеры</li>
-                  <li class="list-group-item px-0">Hello, world + структура проекта</li>
+                  <li class="list-group-item px-0">Как устроены проекты</li>
+                  <li class="list-group-item px-0">Инструменты go: сборка, запуск, тесты, форматирование</li>
+                  <li class="list-group-item px-0">Минимальный синтаксис для старта: объявления, управляющие конструкции, функции</li>
+                  <li class="list-group-item px-0">Типичные ошибки новичка и как их читать</li>
                 </ul>
               </div>
               <div class="card-footer bg-transparent border-0 p-4 pt-0">
@@ -209,17 +199,17 @@
             <div class="card module-card rounded-4 shadow-sm h-100">
               <div class="card-body p-4">
                 <div class="badge text-bg-primary mb-2">Модуль 2</div>
-                <h3 class="h5 mb-1">Основы языка</h3>
-                <div class="text-secondary small">Типы, переменные, функции, управляющие конструкции</div>
+                <h3 class="h5 mb-1">Язык Go</h3>
+                <div class="text-secondary small">Структуры данных, методы, интерфейсы, ошибки</div>
                 <ul class="list-group list-group-flush mt-3">
-                  <li class="list-group-item px-0">Типы данных и преобразования</li>
-                  <li class="list-group-item px-0">Условия, циклы, switch</li>
-                  <li class="list-group-item px-0">Функции, ошибки (error)</li>
+                  <li class="list-group-item px-0">Срезы/мапы: внутренние особенности, copy/append, nil vs empty</li>
+                  <li class="list-group-item px-0">Интерфейсы: “интерфейс по месту использования”, принципы проектирования</li>
+                  <li class="list-group-item px-0">Ошибки: error, оборачивание, typed errors, когда panic допустим</li>
                   <li class="list-group-item px-0">Пакеты и импорт</li>
                 </ul>
               </div>
               <div class="card-footer bg-transparent border-0 p-4 pt-0">
-                <a class="btn btn-outline-primary w-100" href="module-7.html">Открыть модуль</a>
+                <a class="btn btn-outline-primary w-100" href="module-2.html">Открыть модуль</a>
               </div>
             </div>
           </div>
@@ -229,17 +219,17 @@
             <div class="card module-card rounded-4 shadow-sm h-100">
               <div class="card-body p-4">
                 <div class="badge text-bg-primary mb-2">Модуль 3</div>
-                <h3 class="h5 mb-1">Структуры данных</h3>
-                <div class="text-secondary small">Слайсы, мапы, структуры, методы</div>
+                <h3 class="h5 mb-1">Работа с данными и ввод/вывод в стиле Go</h3>
+                <div class="text-secondary small">Чтение файлов</div>
                 <ul class="list-group list-group-flush mt-3">
-                  <li class="list-group-item px-0">Массивы и слайсы</li>
-                  <li class="list-group-item px-0">Map и паттерны использования</li>
-                  <li class="list-group-item px-0">Struct, методы, receiver</li>
-                  <li class="list-group-item px-0">Интерфейсы (введение)</li>
+                  <li class="list-group-item px-0">io.Reader/io.Writer как фундамент, pipe/streaming подход</li>
+                  <li class="list-group-item px-0">bufio, чтение больших файлов, работа с os и путями</li>
+                  <li class="list-group-item px-0">JSON (encode/decode), CSV, время (time), базовые регулярки</li>
+                  <li class="list-group-item px-0">Кодировки, rune, аккуратная работа со строками</li>
                 </ul>
               </div>
               <div class="card-footer bg-transparent border-0 p-4 pt-0">
-                <a class="btn btn-outline-primary w-100" href="module-8.html">Открыть модуль</a>
+                <a class="btn btn-outline-primary w-100" href="module-3.html">Открыть модуль</a>
               </div>
             </div>
           </div>
@@ -249,13 +239,13 @@
             <div class="card module-card rounded-4 shadow-sm h-100">
               <div class="card-body p-4">
                 <div class="badge text-bg-primary mb-2">Модуль 4</div>
-                <h3 class="h5 mb-1">Ошибки, контекст, логирование</h3>
-                <div class="text-secondary small">Практики production-кода</div>
+                <h3 class="h5 mb-1">Конкурентность I: горутины, каналы и паттерны пайплайнов</h3>
+                <div class="text-secondary small">Базовые понятия конкурентности в Go</div>
                 <ul class="list-group list-group-flush mt-3">
-                  <li class="list-group-item px-0">Обработка ошибок и wrapping</li>
-                  <li class="list-group-item px-0">context.Context (заглушка)</li>
-                  <li class="list-group-item px-0">Логирование и уровни</li>
-                  <li class="list-group-item px-0">Конфигурация приложения</li>
+                  <li class="list-group-item px-0">Горутины, каналы, буферизация</li>
+                  <li class="list-group-item px-0">Паттерны: producer/consumer, worker pool, fan-in/fan-out</li>
+                  <li class="list-group-item px-0">select, таймауты/отмена через context (базово)</li>
+                  <li class="list-group-item px-0">ипичные ошибки: утечки горутин, зависания, некорректное закрытие каналов</li>
                 </ul>
               </div>
               <div class="card-footer bg-transparent border-0 p-4 pt-0">
@@ -269,13 +259,13 @@
             <div class="card module-card rounded-4 shadow-sm h-100">
               <div class="card-body p-4">
                 <div class="badge text-bg-primary mb-2">Модуль 5</div>
-                <h3 class="h5 mb-1">Работа с сетью и HTTP</h3>
-                <div class="text-secondary small">Клиент/сервер, маршрутизация, middleware</div>
+                <h3 class="h5 mb-1">Конкурентность II: синхронизация, безопасность данных, диагностика</h3>
+                <div class="text-secondary small">Продвинутые понятия в конкурентности</div>
                 <ul class="list-group list-group-flush mt-3">
-                  <li class="list-group-item px-0">net/http основы</li>
-                  <li class="list-group-item px-0">REST API (заглушка)</li>
-                  <li class="list-group-item px-0">Middleware, auth (заглушка)</li>
-                  <li class="list-group-item px-0">Валидация и ответы</li>
+                  <li class="list-group-item px-0">sync.Mutex/RWMutex, WaitGroup, Once, Cond, atomic</li>
+                  <li class="list-group-item px-0">Разделяемые структуры данных: где ломается, как защищать</li>
+                  <li class="list-group-item px-0">Race detector: как запускать, как интерпретировать</li>
+                  <li class="list-group-item px-0">Практики проектирования: “shared nothing” где возможно, минимизация критических секций</li>
                 </ul>
               </div>
               <div class="card-footer bg-transparent border-0 p-4 pt-0">
@@ -289,13 +279,13 @@
             <div class="card module-card rounded-4 shadow-sm h-100">
               <div class="card-body p-4">
                 <div class="badge text-bg-primary mb-2">Модуль 6</div>
-                <h3 class="h5 mb-1">Базы данных</h3>
-                <div class="text-secondary small">SQL, миграции, репозитории</div>
+                <h3 class="h5 mb-1">Сеть и HTTP: клиент/сервер, контракт, middleware</h3>
+                <div class="text-secondary small">Клиент/сервер, маршрутизация, middleware</div>
                 <ul class="list-group list-group-flush mt-3">
-                  <li class="list-group-item px-0">Подключение к БД (заглушка)</li>
-                  <li class="list-group-item px-0">CRUD и транзакции</li>
-                  <li class="list-group-item px-0">Миграции схемы</li>
-                  <li class="list-group-item px-0">Индексы и производительность (вводно)</li>
+                  <li class="list-group-item px-0">HTTP сервер/клиент: маршрутизация, обработчики, статусы, заголовки</li>
+                  <li class="list-group-item px-0">Middleware-подход: логирование, таймауты, request-id, recovery</li>
+                  <li class="list-group-item px-0">Валидация входных данных, пагинация, идемпотентность</li>
+                  <li class="list-group-item px-0">context в HTTP: отмена запросов, deadline, graceful shutdown</li>
                 </ul>
               </div>
               <div class="card-footer bg-transparent border-0 p-4 pt-0">
@@ -309,13 +299,13 @@
             <div class="card module-card rounded-4 shadow-sm h-100">
               <div class="card-body p-4">
                 <div class="badge text-bg-primary mb-2">Модуль 7</div>
-                <h3 class="h5 mb-1">Конкурентность</h3>
+                <h3 class="h5 mb-1">Тестирование</h3>
                 <div class="text-secondary small">Горутины, каналы, синхронизация</div>
                 <ul class="list-group list-group-flush mt-3">
-                  <li class="list-group-item px-0">goroutine и scheduler</li>
-                  <li class="list-group-item px-0">channels и паттерны</li>
-                  <li class="list-group-item px-0">sync: mutex, waitgroup</li>
-                  <li class="list-group-item px-0">Контроль отмены и таймауты</li>
+                  <li class="list-group-item px-0">30 теоретических вопросов</li>
+                  <li class="list-group-item px-0">Проверка знаний по всем модулям</li>
+                  <li class="list-group-item px-0">Автоматическая проверка</li>
+                  <li class="list-group-item px-0">Займет всего 60 минут</li>
                 </ul>
               </div>
               <div class="card-footer bg-transparent border-0 p-4 pt-0">
@@ -329,13 +319,12 @@
             <div class="card module-card rounded-4 shadow-sm h-100">
               <div class="card-body p-4">
                 <div class="badge text-bg-primary mb-2">Модуль 8</div>
-                <h3 class="h5 mb-1">Тестирование и деплой</h3>
-                <div class="text-secondary small">Unit/интеграционные тесты, сборка, CI/CD</div>
+                <h3 class="h5 mb-1">Проект</h3>
+                <div class="text-secondary small">Разработка своего собственного микросервиса</div>
                 <ul class="list-group list-group-flush mt-3">
-                  <li class="list-group-item px-0">testing, table-driven tests</li>
-                  <li class="list-group-item px-0">mock/stub (заглушка)</li>
-                  <li class="list-group-item px-0">Сборка и конфиг окружений</li>
-                  <li class="list-group-item px-0">Docker/CI (заглушка)</li>
+                  <li class="list-group-item px-0">Комплексный проект</li>
+                  <li class="list-group-item px-0">Реальные бизнесовые кейсы</li>
+                  <li class="list-group-item px-0">Применение всех полученных знаний</li>
                 </ul>
               </div>
               <div class="card-footer bg-transparent border-0 p-4 pt-0">
@@ -366,7 +355,7 @@
                     <div id="req1" class="accordion-collapse collapse show" data-bs-parent="#reqAcc">
                       <div class="accordion-body">
                         <ul class="mb-0">
-                          <li>Go (версия: заглушка)</li>
+                          <li>Go 1.21.0</li>
                           <li>Git</li>
                           <li>IDE/редактор (GoLand / VS Code)</li>
                           <li>Терминал (bash/zsh/powershell)</li>
@@ -385,8 +374,7 @@
                       <div class="accordion-body">
                         <ul class="mb-0">
                           <li>Docker</li>
-                          <li>PostgreSQL / SQLite (по теме БД)</li>
-                          <li>Make / Taskfile (по желанию)</li>
+                          <li>PostgreSQL / SQLite</li>
                           <li>HTTP-клиент: Postman / Insomnia / curl</li>
                         </ul>
                       </div>
@@ -396,14 +384,14 @@
                   <div class="accordion-item">
                     <h2 class="accordion-header">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#req3" aria-expanded="false" aria-controls="req3">
-                        Требования к ПК (заглушка)
+                        Требования к ПК
                       </button>
                     </h2>
                     <div id="req3" class="accordion-collapse collapse" data-bs-parent="#reqAcc">
                       <div class="accordion-body">
                         <ul class="mb-0">
-                          <li>RAM: 8+ GB (лучше 16)</li>
-                          <li>CPU: 2+ ядра</li>
+                          <li>RAM: 8+ GB</li>
+                          <li>CPU: 4+ ядра</li>
                           <li>Диск: 10+ GB свободного места</li>
                           <li>OS: Windows / macOS / Linux</li>
                         </ul>
@@ -425,10 +413,6 @@
                   <li>Проверь <code>git --version</code></li>
                   <li>Открой любой модуль и внеси правки</li>
                 </ol>
-
-                <div class="alert alert-primary mb-0 rounded-4" role="alert">
-                  Здесь можно добавить ссылки на установщики/инструкции — я оставил место под твой контент.
-                </div>
               </div>
             </div>
           </div>
@@ -444,11 +428,9 @@
             <h2 class="h3 section-title mb-3">Контакты</h2>
             <div class="card rounded-4 shadow-sm">
               <div class="card-body p-4 p-md-5">
-                <p class="text-secondary mb-3">Заглушка: куда писать по вопросам курса.</p>
                 <ul class="mb-0 text-secondary">
-                  <li>Email: example@domain.tld</li>
-                  <li>Telegram: @example</li>
-                  <li>Сайт/репозиторий: (добавишь)</li>
+                  <li>Email: ilya.zayats@icloud.com</li>
+                  <li>Telegram: @mylkydad</li>
                 </ul>
               </div>
             </div>
@@ -460,8 +442,8 @@
               <div class="card-body p-4 p-md-5">
                 <div class="list-group">
                   <a class="list-group-item list-group-item-action" href="module-1.html">Модуль 1</a>
-                  <a class="list-group-item list-group-item-action" href="module-7.html">Модуль 2</a>
-                  <a class="list-group-item list-group-item-action" href="module-8.html">Модуль 3</a>
+                  <a class="list-group-item list-group-item-action" href="module-2.html">Модуль 2</a>
+                  <a class="list-group-item list-group-item-action" href="module-3.html">Модуль 3</a>
                   <a class="list-group-item list-group-item-action" href="module-4.html">Модуль 4</a>
                   <a class="list-group-item list-group-item-action" href="module-5.html">Модуль 5</a>
                   <a class="list-group-item list-group-item-action" href="module-6.html">Модуль 6</a>
@@ -480,7 +462,6 @@
   <footer class="py-4 footer bg-white">
     <div class="container d-flex flex-wrap gap-2 justify-content-between align-items-center">
       <div class="text-secondary small">© <span id="y"></span> ЭУМК по Go-разработке</div>
-      <div class="text-secondary small">Сделано на Bootstrap 5 • Шаблон под правки</div>
     </div>
   </footer>
 

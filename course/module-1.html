@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Модуль 1 — Лекция: Старт в Go и инструменты разработки</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    .sticky-actions { top: 84px; } /* под navbar */
+    .code-card pre { margin: 0; max-height: 520px; overflow: auto; }
+    .code-card code { font-size: .9rem; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-semibold" href="index.html">ЭУМК Go</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="topNav">
+      <ul class="navbar-nav ms-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="index.html#structure">Модули</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#requirements">ПО</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="py-4">
+  <div class="container">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Главная</a></li>
+        <li class="breadcrumb-item"><a href="index.html#structure">Структура</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Модуль 1 — Лекция</li>
+      </ol>
+    </nav>
+
+    <div class="row g-4">
+      <!-- Sidebar -->
+      <aside class="col-lg-4 col-xl-3">
+        <div class="card rounded-4 shadow-sm position-sticky sticky-actions">
+          <div class="card-body">
+            <div class="fw-semibold mb-2">Навигация</div>
+            <div class="list-group small">
+              <a class="list-group-item list-group-item-action" href="#theory">Теория</a>
+              <a class="list-group-item list-group-item-action" href="#code">Код</a>
+              <a class="list-group-item list-group-item-action" href="#practice">Практика</a>
+              <a class="list-group-item list-group-item-action" href="#summary">Итоги</a>
+            </div>
+
+            <hr>
+
+            <div class="d-grid gap-2">
+              <a class="btn btn-outline-secondary" href="index.html#requirements">Требования к ПО</a>
+              <a class="btn btn-primary" href="module_type2.html">К тесту</a>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Content -->
+      <section class="col-lg-8 col-xl-9">
+        <div class="card rounded-4 shadow-sm">
+          <div class="card-body p-4 p-md-5">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-2">
+              <div>
+                <div class="badge text-bg-primary mb-2">Тип 1</div>
+                <h1 class="h3 mb-1">Лекция: Старт в Go и инструменты разработки</h1>
+                <p class="text-secondary mb-0">
+                  Введение в Go: философия и принципы, структура проекта (module → package → file), экспортируемость,
+                  ключевые команды toolchain и базовый синтаксис для старта.
+                </p>
+              </div>
+              <a class="btn btn-outline-primary" href="index.html#structure">К структуре</a>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- ===== THEORY BLOCK (SEPARATE) ===== -->
+            <section id="theory">
+              <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+                <h2 class="h5 mb-0">Теория</h2>
+                <span class="badge text-bg-light border text-dark">Блок теории</span>
+              </div>
+
+              <div class="p-4 bg-light rounded-4 border">
+                <h3 class="h6 mb-2">Цели и результаты обучения</h3>
+                <ul class="text-secondary mb-4">
+                  <li>Понимать модель проекта Go: <strong>module → package → file</strong> и правила импорта.</li>
+                  <li>Уметь создавать проект с <strong>Go Modules</strong> и управлять зависимостями базовыми командами.</li>
+                  <li>Использовать ключевые инструменты: <strong>go run/build/test/fmt/vet</strong>, <strong>go mod tidy</strong>.</li>
+                  <li>Писать базовые программы на Go: объявления, <strong>if/for/switch</strong>, функции, <strong>(T, error)</strong>.</li>
+                </ul>
+
+                <h3 class="h6 mb-2">Предварительные знания</h3>
+                <ul class="text-secondary mb-4">
+                  <li>Уверенное владение любым языком программирования (Python/Java/C++ и т.п.).</li>
+                </ul>
+
+                <h3 class="h6 mb-2">План занятия</h3>
+                <ul class="text-secondary mb-4">
+                  <li>Философия Go и базовые идиомы.</li>
+                  <li>Структура проекта: модули и пакеты, экспортируемость идентификаторов.</li>
+                  <li>Инструменты go: запуск, сборка, тесты, форматирование, анализ.</li>
+                  <li>Минимальный синтаксис: объявления, управляющие конструкции, функции.</li>
+                  <li>Типичные ошибки компилятора и как их читать.</li>
+                </ul>
+
+                <hr class="my-4">
+
+                <h3 class="h6 mb-2">Лекция (2 акад. часа)</h3>
+
+                <div class="p-3 bg-white border rounded-4 mb-3">
+                  <div class="fw-semibold mb-1">1. Go: цели языка и практические принципы</div>
+                  <p class="text-secondary mb-2">
+                    Go проектировался как язык для систем и сервисов: читаемость, предсказуемость,
+                    простая модель конкурентности и быстрые сборки.
+                  </p>
+                  <ul class="text-secondary mb-0">
+                    <li>Минимум “магии” и скрытых преобразований.</li>
+                    <li>Явная обработка ошибок.</li>
+                    <li>Композиция вместо наследования.</li>
+                    <li>Единый формат кода (<strong>gofmt</strong>) и единый инструмент (<strong>go</strong>).</li>
+                  </ul>
+                </div>
+
+                <div class="p-3 bg-white border rounded-4 mb-3">
+                  <div class="fw-semibold mb-1">2. Модули и пакеты</div>
+                  <p class="text-secondary mb-0">
+                    <strong>Модуль</strong> — единица версионирования и зависимостей (<strong>go.mod</strong>).
+                    <strong>Пакет</strong> — набор Go-файлов в одной папке с одинаковым <code>package &lt;name&gt;</code>.
+                  </p>
+                </div>
+
+                <div class="p-3 bg-white border rounded-4 mb-3">
+                  <div class="fw-semibold mb-1">3. Импорты и экспортируемость</div>
+                  <p class="text-secondary mb-0">
+                    Идентификаторы с заглавной буквы экспортируются из пакета.
+                    С маленькой — видны только внутри пакета.
+                  </p>
+                </div>
+
+                <div class="p-3 bg-white border rounded-4 mb-3">
+                  <div class="fw-semibold mb-1">4. Инструменты go</div>
+                  <ul class="text-secondary mb-0">
+                    <li><code>go fmt ./...</code> — автоформатирование (единый стиль).</li>
+                    <li><code>go test ./...</code> — запуск тестов всех пакетов.</li>
+                    <li><code>go vet ./...</code> — статический анализ типичных ошибок.</li>
+                    <li><code>go mod tidy</code> — приводит <code>go.mod/go.sum</code> в консистентное состояние.</li>
+                  </ul>
+                </div>
+
+                <div class="p-3 bg-white border rounded-4 mb-3">
+                  <div class="fw-semibold mb-1">5. Минимальный синтаксис для старта</div>
+                  <ul class="text-secondary mb-0">
+                    <li>Объявления: <code>var</code>, <code>:=</code>, <code>const</code>.</li>
+                    <li><code>if</code> с коротким statement (идиома).</li>
+                    <li>Функции, возвращающие <code>(T, error)</code>.</li>
+                  </ul>
+                </div>
+
+                <div class="p-3 bg-white border rounded-4">
+                  <div class="fw-semibold mb-1">6. Мини-демо: пакет + тест</div>
+                  <p class="text-secondary mb-0">
+                    Тесты — часть базовой культуры Go. Даже простая функция должна иметь проверку.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <hr class="my-4">
+
+            <!-- ===== CODE BLOCK (SEPARATE) ===== -->
+            <section id="code">
+              <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+                <h2 class="h5 mb-0">Код</h2>
+                <span class="badge text-bg-light border text-dark">Блок кода</span>
+              </div>
+
+              <!-- Code block 1: module init -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">Создание модуля</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code1">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+                  <pre><code id="code1">mkdir hello-go
+cd hello-go
+go mod init example.com/hello-go</code></pre>
+                </div>
+              </div>
+
+              <!-- Code block 2: minimal program -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">Минимальная программа</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code2">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+                  <pre><code id="code2">package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, Go!")
+}</code></pre>
+                </div>
+              </div>
+
+              <!-- Code block 3: run/build -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">Запуск и сборка</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code3">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+                  <pre><code id="code3">go run .
+go build .</code></pre>
+                </div>
+              </div>
+
+              <!-- Code block 4: greet package -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">Пакет greet и использование в main</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code4">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+                  <pre><code id="code4">// greet/greet.go
+package greet
+
+import "fmt"
+
+// Hello - экспортируемая функция.
+func Hello(name string) string {
+    return fmt.Sprintf("Hello, %s!", name)
+}
+
+// main.go
+package main
+
+import (
+    "fmt"
+    "example.com/hello-go/greet"
+)
+
+func main() {
+    fmt.Println(greet.Hello("Alice"))
+}</code></pre>
+                </div>
+              </div>
+
+              <!-- Code block 5: go tools -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">Ключевые команды toolchain</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code5">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+                  <pre><code id="code5">go fmt ./...
+go test ./...
+go vet ./...
+go mod tidy</code></pre>
+                </div>
+              </div>
+
+              <!-- Code block 6: declarations -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">Объявления: var, :=, const</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code6">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+                  <pre><code id="code6">package main
+
+import "fmt"
+
+func main() {
+    var a int = 10
+    b := 20
+    const pi = 3.14
+    fmt.Println(a, b, pi)
+}</code></pre>
+                </div>
+              </div>
+
+              <!-- Code block 7: if short statement -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">if с коротким statement (идиома)</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code7">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+                  <pre><code id="code7">package main
+
+import (
+    "fmt"
+    "strconv"
+)
+
+func main() {
+    if n, err := strconv.Atoi("123"); err != nil {
+        fmt.Println("bad number:", err)
+        return
+    } else {
+        fmt.Println("parsed:", n)
+    }
+}</code></pre>
+                </div>
+              </div>
+
+              <!-- Code block 8: (T, error) -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">Функция (T, error): divide</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code8">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+                  <pre><code id="code8">package main
+
+import (
+    "errors"
+    "fmt"
+)
+
+func divide(a, b int) (int, error) {
+    if b == 0 {
+        return 0, errors.New("division by zero")
+    }
+    return a / b, nil
+}
+
+func main() {
+    q, err := divide(10, 2)
+    if err != nil {
+        fmt.Println("error:", err)
+        return
+    }
+    fmt.Println("q:", q)
+}</code></pre>
+                </div>
+              </div>
+
+              <!-- Code block 9: package + test -->
+              <div class="card code-card rounded-4 border">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">Мини-демо: пакет + тест</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code9">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+                  <pre><code id="code9">// mathutil/sum.go
+package mathutil
+
+func Sum(a, b int) int {
+    return a + b
+}
+
+// mathutil/sum_test.go
+package mathutil
+
+import "testing"
+
+func TestSum(t *testing.T) {
+    got := Sum(2, 3)
+    want := 5
+    if got != want {
+        t.Fatalf("Sum(2,3) = %d, want %d", got, want)
+    }
+}
+
+// Запуск:
+go test ./...</code></pre>
+                </div>
+              </div>
+            </section>
+
+            <hr class="my-4">
+
+            <!-- PRACTICE -->
+            <section id="practice">
+              <h2 class="h5 mb-3">Практика</h2>
+              <div class="alert alert-secondary rounded-4">
+                Мини-практика по модулю 1
+              </div>
+
+              <ol class="text-secondary mb-0">
+                <li>Создай проект <code>hello-go</code> через <code>go mod init</code>.</li>
+                <li>Собери и запусти минимальную программу (<code>go run .</code>, <code>go build .</code>).</li>
+                <li>Добавь пакет <code>greet</code> и вызови функцию <code>Hello</code> из <code>main</code>.</li>
+                <li>Запусти <code>go fmt ./...</code>, <code>go vet ./...</code>, затем <code>go mod tidy</code>.</li>
+                <li>Создай пакет <code>mathutil</code>, реализуй <code>Sum</code> и тест <code>TestSum</code>, проверь через <code>go test ./...</code>.</li>
+              </ol>
+            </section>
+
+            <hr class="my-4">
+
+            <!-- SUMMARY -->
+            <section id="summary">
+              <h2 class="h5 mb-3">Итоги</h2>
+              <ul class="text-secondary mb-4">
+                <li>Проект Go состоит из модулей и пакетов; экспорт управляется заглавной буквой.</li>
+                <li>Команды <code>go run/build/test/fmt/vet</code> и <code>go mod tidy</code> составляют базовый workflow.</li>
+                <li>Go поощряет явную обработку ошибок и простой читаемый код.</li>
+              </ul>
+
+              <div class="p-3 border rounded-4 mb-4">
+                <div class="fw-semibold mb-2">Контрольные вопросы</div>
+                <ul class="text-secondary mb-0">
+                  <li>Чем модуль отличается от пакета?</li>
+                  <li>Почему <code>gofmt</code> считается обязательным?</li>
+                  <li>Где можно использовать <code>:=</code>, а где нельзя?</li>
+                  <li>Зачем нужен <code>go mod tidy</code>?</li>
+                  <li>Как выглядит идиома обработки ошибок в Go?</li>
+                </ul>
+              </div>
+
+              <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-outline-secondary" href="index.html#structure">Назад к модулям</a>
+                <a class="btn btn-primary" href="module_type2.html">Перейти к тесту</a>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<!-- Toast for copy -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index:1080">
+  <div id="copyToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Код скопирован</strong>
+      <small>OK</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+    </div>
+    <div class="toast-body">Фрагмент кода помещён в буфер обмена.</div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const toastEl = document.getElementById('copyToast');
+  const toast = new bootstrap.Toast(toastEl);
+
+  document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-copy-target]');
+    if (!btn) return;
+
+    const selector = btn.getAttribute('data-copy-target');
+    const codeEl = document.querySelector(selector);
+    if (!codeEl) return;
+
+    const text = codeEl.innerText;
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.show();
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      toast.show();
+    }
+  });
+</script>
+</body>
+</html>
