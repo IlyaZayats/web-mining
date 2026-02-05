@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Модуль 3 — Лекция: Работа с данными и ввод/вывод в стиле Go</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    .sticky-actions { top: 84px; } /* под navbar */
+    .code-card pre { margin: 0; max-height: 520px; overflow: auto; }
+    .code-card code { font-size: .9rem; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-semibold" href="index.html">ЭУМК Go</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="topNav">
+      <ul class="navbar-nav ms-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="index.html#structure">Модули</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#requirements">ПО</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="py-4">
+  <div class="container">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Главная</a></li>
+        <li class="breadcrumb-item"><a href="index.html#structure">Структура</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Модуль 3 — Лекция</li>
+      </ol>
+    </nav>
+
+    <div class="row g-4">
+      <!-- Sidebar -->
+      <aside class="col-lg-4 col-xl-3">
+        <div class="card rounded-4 shadow-sm position-sticky sticky-actions">
+          <div class="card-body">
+            <div class="fw-semibold mb-2">Навигация</div>
+            <div class="list-group small">
+              <a class="list-group-item list-group-item-action" href="#theory">Теория</a>
+              <a class="list-group-item list-group-item-action" href="#code">Код</a>
+              <a class="list-group-item list-group-item-action" href="#practice">Практика</a>
+              <a class="list-group-item list-group-item-action" href="#summary">Итоги</a>
+            </div>
+
+            <hr>
+
+            <div class="d-grid gap-2">
+              <a class="btn btn-outline-secondary" href="index.html#requirements">Требования к ПО</a>
+              <a class="btn btn-primary" href="module_type2.html">К тесту</a>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Content -->
+      <section class="col-lg-8 col-xl-9">
+        <div class="card rounded-4 shadow-sm">
+          <div class="card-body p-4 p-md-5">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-2">
+              <div>
+                <div class="badge text-bg-primary mb-2">Тип 1</div>
+                <h1 class="h3 mb-1">Лекция: Работа с данными и ввод/вывод в стиле Go</h1>
+                <p class="text-secondary mb-0">
+                  Модель I/O через интерфейсы <strong>io.Reader/io.Writer</strong>, работа с файлами и буферизацией,
+                  потоковые пайплайны, JSON/CSV (включая streaming), основы <code>time</code> и нюансы UTF‑8 строк.
+                </p>
+              </div>
+              <a class="btn btn-outline-primary" href="index.html#structure">К структуре</a>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- ===== THEORY BLOCK (SEPARATE) ===== -->
+            <section id="theory">
+              <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+                <h2 class="h5 mb-0">Теория</h2>
+                <span class="badge text-bg-light border text-dark">Блок теории</span>
+              </div>
+
+              <div class="p-4 bg-light rounded-4 border">
+                <h3 class="h6 mb-2">Цели и результаты обучения</h3>
+                <ul class="text-secondary mb-4">
+                  <li>Понимать модель I/O Go через интерфейсы <strong>io.Reader</strong>/<strong>io.Writer</strong>.</li>
+                  <li>Уметь работать с файлами, буферизацией и безопасным освобождением ресурсов.</li>
+                  <li>Строить потоковые (streaming) пайплайны без загрузки всего ввода в память.</li>
+                  <li>Сериализовать и парсить JSON/CSV, включая потоковые сценарии.</li>
+                  <li>Понимать основы <code>time</code> и нюансы строк/UTF‑8 (<code>rune</code>).</li>
+                </ul>
+
+                <h3 class="h6 mb-2">План занятия</h3>
+                <ul class="text-secondary mb-4">
+                  <li>Интерфейсы <code>io.Reader</code>/<code>io.Writer</code> и композиция потоков.</li>
+                  <li>Файлы и буферизация: <code>os</code>, <code>bufio</code>, шаблоны использования.</li>
+                  <li>Потоковая обработка и лимиты: <code>io.Copy</code>, <code>LimitReader</code>, <code>TeeReader</code>.</li>
+                  <li>Форматы: JSON (<code>Unmarshal</code>/<code>Encoder</code>/<code>Decoder</code>), CSV.</li>
+                  <li>Время и строки: <code>time</code>, UTF‑8, <code>rune</code>.</li>
+                  <li>Ошибки I/O: <code>io.EOF</code> и оборачивание контекстом.</li>
+                </ul>
+
+                <hr class="my-4">
+
+                <h3 class="h6 mb-3">Ключевые идеи</h3>
+
+                <div class="p-3 bg-white border rounded-4 mb-3">
+                  <div class="fw-semibold mb-1">1) I/O как поток: Reader/Writer</div>
+                  <p class="text-secondary mb-0">
+                    Большая часть стандартной библиотеки строится вокруг <code>io.Reader</code> и <code>io.Writer</code>,
+                    что позволяет комбинировать источники и приёмники данных (композиция потоков).
+                  </p>
+                </div>
+
+                <div class="p-3 bg-white border rounded-4 mb-3">
+                  <div class="fw-semibold mb-1">2) Файлы и defer Close()</div>
+                  <p class="text-secondary mb-0">
+                    <code>defer</code> обеспечивает освобождение ресурса даже при раннем выходе по ошибке.
+                  </p>
+                </div>
+
+                <div class="p-3 bg-white border rounded-4 mb-3">
+                  <div class="fw-semibold mb-1">3) Буферизация через bufio</div>
+                  <p class="text-secondary mb-0">
+                    Буферизация снижает число системных вызовов и повышает производительность при множестве маленьких операций.
+                    При записи через <code>bufio.Writer</code> важно не забывать <code>Flush()</code>.
+                  </p>
+                </div>
+
+                <div class="p-3 bg-white border rounded-4 mb-3">
+                  <div class="fw-semibold mb-1">4) Streaming и лимиты</div>
+                  <p class="text-secondary mb-0">
+                    Для больших входов избегайте чтения целиком. Ограничивайте вход на границе
+                    (<code>io.LimitReader</code>), зеркальте поток при необходимости (<code>io.TeeReader</code>).
+                  </p>
+                </div>
+
+                <div class="p-3 bg-white border rounded-4 mb-3">
+                  <div class="fw-semibold mb-1">5) JSON и CSV</div>
+                  <ul class="text-secondary mb-0">
+                    <li>Для небольших данных удобен <code>json.Unmarshal</code>.</li>
+                    <li>Для потоков используйте <code>json.Decoder</code>/<code>json.Encoder</code>.</li>
+                    <li>CSV удобно читать/писать потоково через <code>encoding/csv</code>.</li>
+                  </ul>
+                </div>
+
+                <div class="p-3 bg-white border rounded-4 mb-3">
+                  <div class="fw-semibold mb-1">6) Время и строки</div>
+                  <ul class="text-secondary mb-0">
+                    <li>Формат <code>time</code> задаётся эталоном <code>2006-01-02 15:04:05</code>.</li>
+                    <li><code>len(string)</code> считает байты, для количества Unicode-символов используйте <code>[]rune</code>.</li>
+                  </ul>
+                </div>
+
+                <div class="p-3 bg-white border rounded-4">
+                  <div class="fw-semibold mb-1">7) Ошибки I/O: io.EOF и контекст</div>
+                  <p class="text-secondary mb-0">
+                    <code>io.EOF</code> — сигнал конца потока. Реальные ошибки оборачивайте контекстом через <code>%w</code>.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <hr class="my-4">
+
+            <!-- ===== CODE BLOCK (SEPARATE) ===== -->
+            <section id="code">
+              <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+                <h2 class="h5 mb-0">Код</h2>
+                <span class="badge text-bg-light border text-dark">Блок кода</span>
+              </div>
+
+              <div class="alert alert-primary rounded-4" role="alert">
+                Примеры кода из Модуля 3. У каждого — кнопка «Скопировать».
+              </div>
+
+              <!-- 1. stdin -> stdout -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">stdin → stdout через io.Copy</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code1">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+<pre><code id="code1">package main
+
+import (
+    "io"
+    "os"
+)
+
+func main() {
+    _, err := io.Copy(os.Stdout, os.Stdin)
+    if err != nil {
+        panic(err)
+    }
+}</code></pre>
+                </div>
+              </div>
+
+              <!-- 2. open + defer close -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">Работа с файлами и defer Close()</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code2">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+<pre><code id="code2">f, err := os.Open("input.txt")
+if err != nil { return err }
+defer f.Close()</code></pre>
+                </div>
+              </div>
+
+              <!-- 3. scanner -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">Буферизация: чтение построчно через bufio.Scanner</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code3">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+<pre><code id="code3">package main
+
+import (
+    "bufio"
+    "os"
+)
+
+func main() {
+    f, _ := os.Open("input.txt")
+    defer f.Close()
+
+    sc := bufio.NewScanner(f)
+    for sc.Scan() {
+        _ = sc.Text()
+    }
+    if err := sc.Err(); err != nil {
+        panic(err)
+    }
+}</code></pre>
+                </div>
+              </div>
+
+              <!-- 4. writer flush -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">Буферизация: запись через bufio.Writer + Flush()</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code4">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+<pre><code id="code4">w := bufio.NewWriter(f)
+_, _ = w.WriteString("one\n")
+_ = w.Flush()</code></pre>
+                </div>
+              </div>
+
+              <!-- 5. limit reader -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">Streaming: ограничение входа через io.LimitReader</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code5">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+<pre><code id="code5">limited := io.LimitReader(os.Stdin, 1&lt;&lt;20) // 1MB
+_, err := io.Copy(os.Stdout, limited)</code></pre>
+                </div>
+              </div>
+
+              <!-- 6. TeeReader -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">Streaming: зеркалирование потока через io.TeeReader</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code6">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+<pre><code id="code6">var log bytes.Buffer
+tee := io.TeeReader(os.Stdin, &amp;log)
+_, _ = io.Copy(os.Stdout, tee)</code></pre>
+                </div>
+              </div>
+
+              <!-- 7. JSON Unmarshal -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">JSON: Unmarshal для небольших данных</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code7">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+<pre><code id="code7">type User struct {
+    ID   int    `json:"id"`
+    Name string `json:"name"`
+}
+
+var u User
+err := json.Unmarshal([]byte(`{"id":1,"name":"Alice"}`), &amp;u)</code></pre>
+                </div>
+              </div>
+
+              <!-- 8. NDJSON streaming -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">JSON: потоковое чтение/запись (newline-delimited JSON)</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code8">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+<pre><code id="code8">dec := json.NewDecoder(os.Stdin)
+enc := json.NewEncoder(os.Stdout)
+
+for {
+    var e map[string]any
+    if err := dec.Decode(&amp;e); err == io.EOF {
+        break
+    } else if err != nil {
+        panic(err)
+    }
+    e["processed"] = true
+    if err := enc.Encode(e); err != nil {
+        panic(err)
+    }
+}</code></pre>
+                </div>
+              </div>
+
+              <!-- 9. CSV -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">CSV: чтение потоково через encoding/csv</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code9">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+<pre><code id="code9">r := csv.NewReader(os.Stdin)
+for {
+    rec, err := r.Read()
+    if err == io.EOF { break }
+    if err != nil { panic(err) }
+    _ = rec
+}</code></pre>
+                </div>
+              </div>
+
+              <!-- 10. time + format -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">time: Parse и Format</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code10">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+<pre><code id="code10">t, _ := time.Parse("2006-01-02", "2026-02-05")
+fmt.Println(t.Format(time.RFC3339))</code></pre>
+                </div>
+              </div>
+
+              <!-- 11. UTF-8 rune -->
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">Строки UTF‑8: байты vs руны</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code11">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+<pre><code id="code11">s := "Привет"
+fmt.Println(len(s))         // bytes
+fmt.Println(len([]rune(s))) // runes</code></pre>
+                </div>
+              </div>
+
+              <!-- 12. io.EOF + wrap -->
+              <div class="card code-card rounded-4 border">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">Ошибки I/O: io.EOF и оборачивание контекстом</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code12">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+<pre><code id="code12">if err == io.EOF { return nil }
+return fmt.Errorf("read input: %w", err)</code></pre>
+                </div>
+              </div>
+            </section>
+
+            <hr class="my-4">
+
+            <!-- PRACTICE -->
+            <section id="practice">
+              <h2 class="h5 mb-3">Практика</h2>
+              <div class="alert alert-secondary rounded-4">
+                Набор упражнений для закрепления темы.
+              </div>
+
+              <ol class="text-secondary mb-0">
+                <li>Сделай утилиту «stdin → stdout» на <code>io.Copy</code>. Добавь обработку ошибок.</li>
+                <li>Напиши чтение файла построчно: открой файл, используй <code>bufio.Scanner</code>, обработай <code>sc.Err()</code>.</li>
+                <li>Реализуй запись в файл через <code>bufio.Writer</code> и убедись, что вызываешь <code>Flush()</code>.</li>
+                <li>Ограничь входные данные через <code>io.LimitReader</code> (например, 1MB) и скопируй их в stdout.</li>
+                <li>Добавь аудит потока через <code>io.TeeReader</code> (второй поток в buffer/файл).</li>
+                <li>Сделай пример JSON: <code>Unmarshal</code> в структуру и вывод результата.</li>
+                <li>Сделай streaming JSON через <code>Decoder/Encoder</code> (NDJSON): добавляй поле <code>processed</code>.</li>
+                <li>Прочитай CSV из stdin через <code>encoding/csv</code>, выведи количество записей/столбцов.</li>
+                <li>Попрактикуйся с <code>time.Parse</code>/<code>Format</code> и объясни, почему используется дата 2006‑01‑02.</li>
+                <li>Покажи разницу <code>len(s)</code> и <code>len([]rune(s))</code> на строке с кириллицей.</li>
+                <li>Собери единый пайплайн I/O и аккуратно обработай <code>io.EOF</code>, оборачивая ошибки контекстом.</li>
+              </ol>
+            </section>
+
+            <hr class="my-4">
+
+            <!-- SUMMARY -->
+            <section id="summary">
+              <h2 class="h5 mb-3">Итоги</h2>
+              <ul class="text-secondary mb-4">
+                <li><code>io.Reader</code>/<code>io.Writer</code> — основа композиции I/O в Go; большинство источников и приёмников их реализуют.</li>
+                <li>Буферизация (<code>bufio</code>) важна для производительности при множестве маленьких операций.</li>
+                <li>Для больших данных используйте streaming (<code>Decoder/Encoder</code>, Reader/Writer) и избегайте чтения целиком.</li>
+              </ul>
+
+              <div class="p-3 border rounded-4 mb-4">
+                <div class="fw-semibold mb-2">Контрольные вопросы</div>
+                <ul class="text-secondary mb-0">
+                  <li>Зачем в Go нужны <code>io.Reader</code>/<code>io.Writer</code> и какие преимущества даёт их использование?</li>
+                  <li>Чем отличается <code>bufio.Scanner</code> от <code>bufio.Reader</code> и где у Scanner есть ограничения?</li>
+                  <li>В каких случаях следует применять <code>json.Decoder</code> вместо <code>json.Unmarshal</code>?</li>
+                  <li>Почему <code>len(s)</code> не равен числу символов в UTF‑8 строке?</li>
+                </ul>
+              </div>
+
+              <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-outline-secondary" href="index.html#structure">Назад к модулям</a>
+                <a class="btn btn-primary" href="module_type2.html">Перейти к тесту</a>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<!-- Toast for copy -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index:1080">
+  <div id="copyToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Код скопирован</strong>
+      <small>OK</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+    </div>
+    <div class="toast-body">Фрагмент кода помещён в буфер обмена.</div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const toastEl = document.getElementById('copyToast');
+  const toast = new bootstrap.Toast(toastEl);
+
+  document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-copy-target]');
+    if (!btn) return;
+
+    const selector = btn.getAttribute('data-copy-target');
+    const codeEl = document.querySelector(selector);
+    if (!codeEl) return;
+
+    const text = codeEl.innerText;
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.show();
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      toast.show();
+    }
+  });
+</script>
+</body>
+</html>

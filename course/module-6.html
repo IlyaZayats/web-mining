@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Модуль 6 — Лекция: Сеть и HTTP: клиент/сервер, middleware и контракты</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    .sticky-actions { top: 84px; } /* под navbar */
+    .code-card pre { margin: 0; max-height: 520px; overflow: auto; }
+    .code-card code { font-size: .9rem; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-semibold" href="index.html">ЭУМК Go</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="topNav">
+      <ul class="navbar-nav ms-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="index.html#structure">Модули</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#requirements">ПО</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="py-4">
+  <div class="container">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Главная</a></li>
+        <li class="breadcrumb-item"><a href="index.html#structure">Структура</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Лекция: Сеть и HTTP: клиент/сервер, middleware и контракты</li>
+      </ol>
+    </nav>
+
+    <div class="row g-4">
+      <!-- Sidebar -->
+      <aside class="col-lg-4 col-xl-3">
+        <div class="card rounded-4 shadow-sm position-sticky sticky-actions">
+          <div class="card-body">
+            <div class="fw-semibold mb-2">Навигация</div>
+            <div class="list-group small">
+              <a class="list-group-item list-group-item-action" href="#theory">Теория</a>
+              <a class="list-group-item list-group-item-action" href="#code">Код</a>
+              <a class="list-group-item list-group-item-action" href="#practice">Практика</a>
+              <a class="list-group-item list-group-item-action" href="#summary">Итоги</a>
+            </div>
+
+            <hr>
+
+            <div class="d-grid gap-2">
+              <a class="btn btn-outline-secondary" href="index.html#requirements">Требования к ПО</a>
+              <a class="btn btn-primary" href="module_type2.html">К тесту</a>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Content -->
+      <section class="col-lg-8 col-xl-9">
+        <div class="card rounded-4 shadow-sm">
+          <div class="card-body p-4 p-md-5">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-2">
+              <div>
+                <div class="badge text-bg-primary mb-2">Тип 1</div>
+                <h1 class="h3 mb-1">Лекция: Сеть и HTTP: клиент/сервер, middleware и контракты</h1>
+                <p class="text-secondary mb-0">Архитектура net/http, построение JSON API, HTTP-клиент с таймаутами и context, middleware-подход и graceful shutdown.</p>
+              </div>
+              <a class="btn btn-outline-primary" href="index.html#structure">К структуре</a>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- ===== THEORY BLOCK (SEPARATE) ===== -->
+            <section id="theory">
+              <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+                <h2 class="h5 mb-0">Теория</h2>
+                <span class="badge text-bg-light border text-dark">Блок теории</span>
+              </div>
+
+              <div class="p-4 bg-light rounded-4 border">
+                
+<h3 class="h6 mb-2">Цели и результаты обучения</h3>
+<ul class="text-secondary mb-4">
+  <li>Понимать базовую архитектуру <code>net/http</code>: Handler, ServeMux, Server.</li>
+  <li>Уметь реализовать HTTP API: маршрутизация, статусы, JSON запрос/ответ.</li>
+  <li>Писать HTTP-клиента с таймаутами и <code>context</code>.</li>
+  <li>Использовать middleware-подход: логирование, recovery, request-id.</li>
+  <li>Реализовать graceful shutdown сервера.</li>
+</ul>
+
+<h3 class="h6 mb-2">План занятия</h3>
+<ul class="text-secondary mb-4">
+  <li>HTTP в Go: Handler, ServeMux, Server, жизненный цикл запроса.</li>
+  <li>JSON API: обработка входа, валидация, коды ответов, ошибки.</li>
+  <li>HTTP client: таймауты, контекст, повторное использование соединений.</li>
+  <li>Middleware: обёртки над Handler, сквозные политики.</li>
+  <li>Graceful shutdown: остановка без потери запросов.</li>
+</ul>
+
+<hr class="my-4">
+
+<h3 class="h6 mb-3">Ключевые тезисы</h3>
+
+<div class="p-3 bg-white border rounded-4 mb-3">
+  <div class="fw-semibold mb-1">1) Минимальный сервер</div>
+  <p class="text-secondary mb-0">Сервер строится вокруг <code>http.Handler</code> (ServeHTTP). Часто используется <code>http.HandlerFunc</code> и <code>http.ServeMux</code> для маршрутизации.</p>
+</div>
+
+<div class="p-3 bg-white border rounded-4 mb-3">
+  <div class="fw-semibold mb-1">2) JSON API</div>
+  <p class="text-secondary mb-0">Отделяйте ошибки клиента (4xx) от ошибок сервера (5xx), валидируйте вход, выставляйте корректные статусы и Content-Type.</p>
+</div>
+
+<div class="p-3 bg-white border rounded-4 mb-3">
+  <div class="fw-semibold mb-1">3) HTTP client</div>
+  <p class="text-secondary mb-0">Всегда задавайте таймауты. Для отмены длительных операций используйте <code>context</code>.</p>
+</div>
+
+<div class="p-3 bg-white border rounded-4 mb-3">
+  <div class="fw-semibold mb-1">4) Middleware</div>
+  <p class="text-secondary mb-0">Middleware — функция, принимающая Handler и возвращающая Handler. Через неё добавляют логирование, recovery, метрики, request-id и прочие сквозные политики.</p>
+</div>
+
+<div class="p-3 bg-white border rounded-4">
+  <div class="fw-semibold mb-1">5) Graceful shutdown</div>
+  <p class="text-secondary mb-0">Корректная остановка прекращает приём новых соединений и ждёт завершения текущих запросов в рамках таймаута через <code>Server.Shutdown</code>.</p>
+</div>
+
+              </div>
+            </section>
+
+            <hr class="my-4">
+
+            <!-- ===== CODE BLOCK (SEPARATE) ===== -->
+            <section id="code">
+              <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+                <h2 class="h5 mb-0">Код</h2>
+                <span class="badge text-bg-light border text-dark">Блок кода</span>
+              </div>
+
+              <div class="alert alert-primary rounded-4" role="alert">
+                Все примеры кода в этом блоке. У каждого — кнопка «Скопировать».
+              </div>
+
+              
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">net/http: минимальный сервер (/health)</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code1">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+                  <pre><code id="code1">package main
+
+import (
+    "fmt"
+    "net/http"
+)
+
+func main() {
+    mux := http.NewServeMux()
+    mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+        w.WriteHeader(http.StatusOK)
+        fmt.Fprintln(w, "ok")
+    })
+
+    http.ListenAndServe(":8080", mux)
+}</code></pre>
+                </div>
+              </div>
+        
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">JSON API: структуры запроса/ошибки</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code2">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+                  <pre><code id="code2">type CreateUserRequest struct {
+    Name string `json:"name"`
+}
+
+type ErrorResponse struct {
+    Error string `json:"error"`
+}</code></pre>
+                </div>
+              </div>
+        
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">JSON API: обработчик с валидацией и статусами</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code3">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+                  <pre><code id="code3">func createUser(w http.ResponseWriter, r *http.Request) {
+    if r.Method != http.MethodPost {
+        w.WriteHeader(http.StatusMethodNotAllowed)
+        return
+    }
+
+    var req CreateUserRequest
+    dec := json.NewDecoder(r.Body)
+    dec.DisallowUnknownFields()
+    if err := dec.Decode(&req); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        json.NewEncoder(w).Encode(ErrorResponse{Error: "invalid json"})
+        return
+    }
+    if strings.TrimSpace(req.Name) == "" {
+        w.WriteHeader(http.StatusBadRequest)
+        json.NewEncoder(w).Encode(ErrorResponse{Error: "name is required"})
+        return
+    }
+
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusCreated)
+    json.NewEncoder(w).Encode(map[string]any{"id": 1, "name": req.Name})
+}</code></pre>
+                </div>
+              </div>
+        
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">HTTP client: таймауты и context</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code4">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+                  <pre><code id="code4">client := &http.Client{Timeout: 3 * time.Second}
+
+req, _ := http.NewRequestWithContext(ctx, http.MethodGet, "http://localhost:8080/health", nil)
+resp, err := client.Do(req)
+if err != nil { /* handle */ }
+defer resp.Body.Close()</code></pre>
+                </div>
+              </div>
+        
+              <div class="card code-card rounded-4 border mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">Middleware: логирование</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code5">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+                  <pre><code id="code5">func logging(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        start := time.Now()
+        next.ServeHTTP(w, r)
+        fmt.Println(r.Method, r.URL.Path, time.Since(start))
+    })
+}
+
+mux := http.NewServeMux()
+mux.HandleFunc("/users", createUser)
+
+handler := logging(mux)
+http.ListenAndServe(":8080", handler)</code></pre>
+                </div>
+              </div>
+        
+              <div class="card code-card rounded-4 border ">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                  <div class="fw-semibold">Graceful shutdown: Server.Shutdown</div>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#code6">Скопировать</button>
+                </div>
+                <div class="card-body bg-light rounded-bottom-4">
+                  <pre><code id="code6">srv := &http.Server{Addr: ":8080", Handler: handler}
+
+go func() {
+    if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+        panic(err)
+    }
+}()
+
+stop := make(chan os.Signal, 1)
+signal.Notify(stop, os.Interrupt, syscall.SIGTERM)
+<-stop
+
+ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+defer cancel()
+_ = srv.Shutdown(ctx)</code></pre>
+                </div>
+              </div>
+        
+            </section>
+
+            <hr class="my-4">
+
+            <!-- PRACTICE -->
+            <section id="practice">
+              <h2 class="h5 mb-3">Практика</h2>
+              <div class="alert alert-secondary rounded-4">
+                Упражнения для закрепления темы.
+              </div>
+              <ol class="text-secondary mb-0">
+                <li>Собери минимальный сервер с ServeMux и эндпоинтом /health, возвращающим статус 200 и текст ok.</li>
+<li>Добавь эндпоинт /users (POST) с декодированием JSON и строгой валидацией (DisallowUnknownFields).</li>
+<li>Реализуй единый формат ошибок (ErrorResponse) и корректные статусы 400/405/500.</li>
+<li>Напиши HTTP-клиент, который опрашивает /health с таймаутом и отменой через context.</li>
+<li>Добавь middleware для логирования: метод, путь, длительность.</li>
+<li>Добавь middleware recovery, который перехватывает panic и возвращает 500.</li>
+<li>Сделай graceful shutdown по SIGINT/SIGTERM: используй Server.Shutdown с таймаутом.</li>
+              </ol>
+            </section>
+
+            <hr class="my-4">
+
+            <!-- SUMMARY -->
+            <section id="summary">
+              <h2 class="h5 mb-3">Итоги</h2>
+              <ul class="text-secondary mb-4">
+                <li>net/http предоставляет каркас Handler + ServeMux + Server и минимальные строительные блоки для сервиса.</li>
+<li>JSON API требует строгой валидации входа и корректного разделения 4xx/5xx.</li>
+<li>Middleware и graceful shutdown — базовые элементы production-сервиса.</li>
+              </ul>
+
+              <div class="p-3 border rounded-4 mb-4">
+                <div class="fw-semibold mb-2">Контрольные вопросы</div>
+                <ul class="text-secondary mb-0">
+                  <li>Что такое http.Handler и чем отличается HandlerFunc?</li>
+<li>Почему полезно делать DisallowUnknownFields при декодировании JSON?</li>
+<li>Какие таймауты нужно задавать в клиенте и на сервере?</li>
+<li>Как устроен middleware-подход и что через него обычно делают?</li>
+<li>Что делает Server.Shutdown и чем он отличается от Close?</li>
+                </ul>
+              </div>
+
+              <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-outline-secondary" href="index.html#structure">Назад к модулям</a>
+                <a class="btn btn-primary" href="module_type2.html">Перейти к тесту</a>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<!-- Toast for copy -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index:1080">
+  <div id="copyToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Код скопирован</strong>
+      <small>OK</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+    </div>
+    <div class="toast-body">Фрагмент кода помещён в буфер обмена.</div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const toastEl = document.getElementById('copyToast');
+  const toast = new bootstrap.Toast(toastEl);
+
+  document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-copy-target]');
+    if (!btn) return;
+
+    const selector = btn.getAttribute('data-copy-target');
+    const codeEl = document.querySelector(selector);
+    if (!codeEl) return;
+
+    const text = codeEl.innerText;
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.show();
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      toast.show();
+    }
+  });
+</script>
+</body>
+</html>

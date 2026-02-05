@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Тест — Модуль (тип 2)</title>
+  <title>Модуль 7 — Тест по Go (30 вопросов)</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -12,7 +12,7 @@
     .question-card { scroll-margin-top: 96px; }
   </style>
 </head>
-<body>
+<body id="top">
 
 <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
   <div class="container">
@@ -34,7 +34,7 @@
     <nav aria-label="breadcrumb" class="mb-3">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.html">Главная</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Тестирование</li>
+        <li class="breadcrumb-item active" aria-current="page">Модуль 7 — Тестирование</li>
       </ol>
     </nav>
 
@@ -44,7 +44,7 @@
         <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
           <div>
             <div class="badge text-bg-primary mb-2">Тип 2</div>
-            <h1 class="h3 mb-1">Тест по теме: название (заглушка)</h1>
+            <h1 class="h3 mb-1">Тест по Go: основы, I/O и конкурентность</h1>
             <p class="text-secondary mb-0">
               Тип теста: <strong>теоретический</strong>. Ответ на каждый вопрос — один вариант из четырёх.
             </p>
@@ -83,7 +83,7 @@
 
     <div class="mt-4 d-flex flex-wrap gap-2">
       <a class="btn btn-outline-secondary" href="index.html#structure">К модулям</a>
-      <a class="btn btn-outline-primary" href="module_type1.html">К лекции</a>
+      <a class="btn btn-outline-primary" href="module-6.html">К предыдущему модулю</a>
     </div>
   </div>
 </main>
@@ -100,7 +100,7 @@
         <div class="p-3 bg-light rounded-4">
           <div class="d-flex justify-content-between">
             <span class="text-secondary">Правильных:</span>
-            <strong><span id="resCorrect">0</span>/30</strong>
+            <strong><span id="resCorrect">0</span>/<span id="resTotal">30</span></strong>
           </div>
           <div class="d-flex justify-content-between">
             <span class="text-secondary">Процент:</span>
@@ -112,13 +112,11 @@
           </div>
         </div>
 
-        <div class="alert alert-primary mt-3 mb-0 rounded-4" id="resHint">
-          Заглушка: рекомендация по повторению темы / ссылка на материалы.
-        </div>
+        <div class="alert alert-primary mt-3 mb-0 rounded-4" id="resHint"></div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Закрыть</button>
-        <a class="btn btn-primary" href="module_type3.html">Следующий модуль</a>
+        <a class="btn btn-primary" href="module-8.html">Следующий модуль</a>
       </div>
     </div>
   </div>
@@ -129,28 +127,17 @@
   // ====== CONFIG ======
   const TEST = {
     totalQuestions: 30,
-    durationSec: 20 * 60, // 20 минут (заглушка)
+    durationSec: 20 * 60, // 20 минут
     passPercent: 70,
     type: "теоретический"
   };
 
-  // Заглушка вопросов: 30 шт, по 4 варианта. correctIndex = 0 сейчас.
-  const questionsData = Array.from({ length: TEST.totalQuestions }, (_, i) => ({
-    id: i + 1,
-    text: `Вопрос ${i + 1}: текст вопроса (заглушка).`,
-    options: [
-      "Вариант A (заглушка)",
-      "Вариант B (заглушка)",
-      "Вариант C (заглушка)",
-      "Вариант D (заглушка)"
-    ],
-    correctIndex: 0
-  }));
+  // ====== QUESTIONS ======
+  const questionsData = [{"id": 1, "text": "Какая команда инициализирует новый Go-модуль в текущей папке?", "options": ["go init", "go mod init", "go get", "go env"], "correctIndex": 1}, {"id": 2, "text": "Что означает шаблон пути './...' в командах go (например, 'go test ./...')?", "options": ["Только текущий файл", "Только текущий пакет", "Текущий пакет и все подпакеты рекурсивно", "Все зависимости из кэша модулей"], "correctIndex": 2}, {"id": 3, "text": "Какое утверждение про gofmt верно?", "options": ["Это необязательный линтер", "Он форматирует код по единому стандарту и считается обязательной практикой", "Он оптимизирует производительность", "Он генерирует документацию"], "correctIndex": 1}, {"id": 4, "text": "Какая особенность краткого объявления ':=' верна?", "options": ["Можно использовать только на уровне пакета", "Можно использовать только внутри функций", "Всегда требует явного типа справа", "Запрещено в if/for"], "correctIndex": 1}, {"id": 5, "text": "Что произойдет при попытке записать в nil-map: var m map[string]int; m[\"x\"]=1 ?", "options": ["Ничего, ключ добавится", "Будет panic", "Вернется error", "Запись проигнорируется"], "correctIndex": 1}, {"id": 6, "text": "Что копируется при присваивании одного среза другому: b := a ?", "options": ["Копируются все элементы массива", "Копируется только заголовок среза (указатель/len/cap)", "Создается новый backing array всегда", "Копируются только первые len/2 элементов"], "correctIndex": 1}, {"id": 7, "text": "Как безопасно получить значение из map и понять, был ли ключ?", "options": ["v := m[k]; if v==0 ...", "v, ok := m[k]", "ok := m.has(k)", "m.get(k, &v)"], "correctIndex": 1}, {"id": 8, "text": "Когда предпочтительнее использовать pointer receiver у метода структуры?", "options": ["Только если метод ничего не возвращает", "Если метод изменяет состояние структуры или структура большая", "Только если структура содержит map", "Всегда запрещено"], "correctIndex": 1}, {"id": 9, "text": "Как Go определяет, что тип реализует интерфейс?", "options": ["Через ключевое слово implements", "Через явную регистрацию в init()", "Неявно — если у типа есть нужные методы", "Только через embedding"], "correctIndex": 2}, {"id": 10, "text": "Какая идиоматичная форма оборачивания ошибки в Go?", "options": ["errors.Wrap(err, msg)", "fmt.Errorf(\"%w: ...\", err)", "fmt.Errorf(\"context: %w\", err)", "panic(err)"], "correctIndex": 2}, {"id": 11, "text": "Какой интерфейс лежит в основе большинства I/O-компонентов Go и читает данные в буфер?", "options": ["io.Closer", "io.Reader", "io.Scanner", "io.Stream"], "correctIndex": 1}, {"id": 12, "text": "Почему bufio.Writer требует вызова Flush()?", "options": ["Чтобы закрыть файл", "Чтобы данные из буфера гарантированно записались в нижележащий writer", "Чтобы установить кодировку", "Потому что иначе gofmt не пройдет"], "correctIndex": 1}, {"id": 13, "text": "Какая функция удобна для копирования данных из Reader в Writer потоком?", "options": ["fmt.Copy", "os.Copy", "io.Copy", "bufio.Copy"], "correctIndex": 2}, {"id": 14, "text": "Что возвращает len(s) для строки в Go?", "options": ["Количество Unicode-символов", "Количество байт в строке", "Количество слов", "Количество рун всегда"], "correctIndex": 1}, {"id": 15, "text": "Как корректно обработать конец потока при чтении?", "options": ["Считать io.EOF обычной ошибкой", "При err == io.EOF завершить чтение и считать это нормальным завершением", "Игнорировать любое err", "Вызвать panic при io.EOF"], "correctIndex": 1}, {"id": 16, "text": "Какая команда запускает тесты всех пакетов модуля рекурсивно?", "options": ["go test all", "go test ./...", "go test -all", "go run test"], "correctIndex": 1}, {"id": 17, "text": "Какой формат времени используется как 'эталон' при time.Parse/time.Format?", "options": ["2000-01-01 00:00:00", "1970-01-01 00:00:00", "2006-01-02 15:04:05", "YYYY-MM-DD HH:MM:SS"], "correctIndex": 2}, {"id": 18, "text": "Что делает io.LimitReader(r, n)?", "options": ["Шифрует поток", "Ограничивает чтение максимум n байт", "Ускоряет чтение", "Делает буферизацию"], "correctIndex": 1}, {"id": 19, "text": "Какой подход предпочтителен для больших JSON-файлов?", "options": ["json.Unmarshal всего файла в память", "json.NewDecoder и Decode потоково", "fmt.Sscan по строкам", "regexp для парсинга"], "correctIndex": 1}, {"id": 20, "text": "Какое утверждение про Scanner верно?", "options": ["Scanner гарантированно читает строки любой длины без настройки", "Scanner имеет лимит на размер токена, который нужно учитывать", "Scanner работает только с stdout", "Scanner нельзя применять к файлам"], "correctIndex": 1}, {"id": 21, "text": "Что такое goroutine?", "options": ["Поток ОС (OS thread)", "Легковесная единица конкурентного выполнения, управляемая рантаймом Go", "Процесс в Linux", "Только синтаксический сахар для for"], "correctIndex": 1}, {"id": 22, "text": "Как корректно завершить worker pool при наличии канала задач?", "options": ["Никогда не закрывать канал", "Закрыть канал задач и дождаться WaitGroup", "Вызвать runtime.GC()", "Использовать panic для остановки"], "correctIndex": 1}, {"id": 23, "text": "Для чего применяется select в Go?", "options": ["Для сортировки срезов", "Для выбора готовой операции среди нескольких каналов", "Для выбора типа переменной", "Для выбора пакета импорта"], "correctIndex": 1}, {"id": 24, "text": "Зачем нужен context.Context в конкурентном коде?", "options": ["Для форматирования логов", "Для отмены, дедлайнов и передачи request-scoped значений", "Для ускорения компиляции", "Для хранения глобальных переменных"], "correctIndex": 1}, {"id": 25, "text": "Какой инструмент помогает обнаруживать гонки данных?", "options": ["go fmt", "go test -race", "go vet -o race", "go build -O2"], "correctIndex": 1}, {"id": 26, "text": "Почему map нельзя безопасно читать/писать из нескольких goroutine без синхронизации?", "options": ["Потому что map всегда nil", "Потому что runtime может panic при конкурентной записи/чтении", "Потому что map медленный", "Потому что map копируется по значению"], "correctIndex": 1}, {"id": 27, "text": "Какой примитив синхронизации подходит для ожидания завершения группы goroutine?", "options": ["sync.Mutex", "sync.WaitGroup", "sync.Once", "sync.Cond"], "correctIndex": 1}, {"id": 28, "text": "Что делает middleware в HTTP-сервисе?", "options": ["Меняет версию Go", "Оборачивает обработчик, добавляя общую функциональность (логирование, таймауты и т.п.)", "Гарантирует отсутствие ошибок", "Шифрует весь трафик без настроек"], "correctIndex": 1}, {"id": 29, "text": "Какой код чаще всего используют для 'graceful shutdown' HTTP-сервера?", "options": ["os.Exit(0) без ожидания", "http.Server.Shutdown(ctx)", "panic(\"shutdown\")", "runtime.Goexit()"], "correctIndex": 1}, {"id": 30, "text": "Какая практика повышает надежность HTTP-клиента/сервиса в production?", "options": ["Не использовать таймауты", "Использовать таймауты и контекст, ограничивать ресурсы", "Делать все запросы синхронно", "Отключить обработку ошибок"], "correctIndex": 1}];
 
   // ====== STATE ======
   let remaining = TEST.durationSec;
   let timerId = null;
-
   const answers = new Map(); // qid -> chosenIndex
 
   // ====== HELPERS ======
@@ -161,7 +148,6 @@
     const badge = document.getElementById("timerBadge");
     badge.textContent = `⏱ ${fmtTime(remaining)}`;
 
-    // лёгкая индикация риска времени
     badge.classList.remove("text-bg-info", "text-bg-warning", "text-bg-danger");
     if (remaining <= 60) badge.classList.add("text-bg-danger");
     else if (remaining <= 5 * 60) badge.classList.add("text-bg-warning");
@@ -218,14 +204,12 @@
       card.appendChild(body);
       wrap.appendChild(card);
 
-      // Restore selected
       const chosen = answers.get(q.id);
       if (chosen !== undefined) {
         const radio = card.querySelector(`input[type="radio"][value="${chosen}"]`);
         if (radio) radio.checked = true;
       }
 
-      // Change handler
       card.addEventListener("change", (e) => {
         const t = e.target;
         if (t && t.matches('input[type="radio"]')) {
@@ -248,25 +232,22 @@
 
   function finishTest(isAuto = false) {
     stopTimer();
-
     const { correct, percent, passed } = calculate();
 
     document.getElementById("resCorrect").textContent = String(correct);
+    document.getElementById("resTotal").textContent = String(TEST.totalQuestions);
     document.getElementById("resPercent").textContent = String(percent);
     document.getElementById("resStatus").textContent = passed ? "Зачёт" : "Не зачёт";
 
     const hint = document.getElementById("resHint");
-    hint.textContent = passed
-      ? "Отлично! Можно переходить к следующему модулю (заглушка рекомендаций)."
-      : "Рекомендуется повторить теорию и пройти тест ещё раз (заглушка рекомендаций).";
+    if (passed) {
+      hint.textContent = "Зачёт. Можно переходить к следующему модулю.";
+    } else {
+      hint.textContent = "Не зачёт. Рекомендуется повторить материалы и пройти тест ещё раз.";
+    }
 
     const modal = new bootstrap.Modal(document.getElementById("resultModal"));
     modal.show();
-
-    if (isAuto) {
-      // Можно дополнить сообщением, что тест завершён по времени
-      // (не обязательно, но иногда полезно)
-    }
   }
 
   function resetTest() {
